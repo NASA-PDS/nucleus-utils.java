@@ -1,8 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!--
-Note to template users: update the copyright in this file (and all others) as needed.
-
-Copyright © 2021, California Institute of Technology ("Caltech").
+Copyright © 2025, California Institute of Technology ("Caltech").
 U.S. Government sponsorship acknowledged.
 
 All rights reserved.
@@ -33,101 +31,59 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 -->
 
-
-<!--
-This is the TEMPLATE project object model or `pom.xml` file.
-
-Go through this file line-by-line and replace the template values with your own.
--->
-
 <project xmlns='http://maven.apache.org/POM/4.0.0'
          xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
          xsi:schemaLocation='http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd'>
 
-    <!-- POM-specific metadata -->
     <modelVersion>4.0.0</modelVersion>
-
-    <!--
-    Speaking of the parent POM, here we say what it is: every PDS Maven project inherits from this parent.
-    Maven (and other compatible build tools) resolve this automatically, but you can find the source of this
-    parent at https://github.com/NASA-PDS/pdsen-maven-parent
-    -->
     <parent>
         <groupId>gov.nasa</groupId>
         <artifactId>pds</artifactId>
         <version>1.18.0</version>
     </parent>
-  
-    <!-- My project metadata here -->
-    <properties>
-        <!-- Obviously put in your own project name instead of `myproject` -->
-        <project-name>myproject</project-name>
 
-        <!-- You'll want a Unicode-type encoding here in almost every case -->
+    <properties>
+        <project-name>nucleus-tools.java</project-name>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <!--
-    Maven "coordinates" that identify this package uniquely in the entire universe; the group identifies an 
-    organizational unit (by reverse domain name) that produced the artifact:
-    -->
     <groupId>gov.nasa.pds</groupId>
-    <!--
-    The next part of the Maven coorindate is the name of the artifact, its "artifact ID". Note we cannot use
-    any expression here, as tempting as it would be to use ${project-name} here:
-    -->
-    <artifactId>myproject</artifactId>
-    <!-- The third part of the Maven coorindate is the version identifier of the artifact: -->
-    <version>0.2.0-SNAPSHOT</version>
-    <!-- The final part is the kind: here we make a `jar`, but there's `war`, `ejb`, `ear`, `maven-plugin`, etc.: -->
+    <artifactId>nucleus-tools</artifactId>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project-name}</name>
     <description>
-        Put a short paragraph-sized summary of the project here.
+        Java utilies used by PDS Nucleus
     </description>
-    <!-- Check the calendar -->
-    <inceptionYear>2021</inceptionYear>
+    <inceptionYear>2025</inceptionYear>
 
-    <!--
-    Note: in the elements below, we cannot use `${project-name}` as apparently property expansion does
-    not occur here despite the documentation at https://maven.apache.org/pom.html#Properties says.
-
-    So be sure to replace all five `myproject`s below with your actual project name!
-    -->
-    <url>https://nasa-pds.github.io/myproject</url>
+    <url>https://nasa-pds.github.io/nucleus-tools.java</url>
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/NASA-PDS/myproject/issues</url>
+        <url>https://github.com/NASA-PDS/nucleus-tools.java/issues</url>
     </issueManagement>
     <scm>
-        <connection>scm:git:https://github.com/NASA-PDS/myproject.git</connection>
-        <developerConnection>scm:git:ssh://github.com/NASA-PDS/myproject.git</developerConnection>
-        <url>https://nasa-pds.github.io/myproject</url>
+        <connection>scm:git:https://github.com/NASA-PDS/nucleus-tools.java.git</connection>
+        <developerConnection>scm:git:ssh://github.com/NASA-PDS/nucleus-tools.java.git</developerConnection>
+        <url>https://nasa-pds.github.io/nucleus-tools.java</url>
         <tag>main</tag>
     </scm>
 
-    <!-- Put the packages your project depends on here -->
     <dependencies>
-        <!-- If you do any kind of testing—and you should—use Junit, which is the gold standard for Java -->
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>aws-sdk-java</artifactId>
+            <version>2.31.6</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.11.0</version>
             <scope>test</scope>
-        </dependency>
-        <!--
-        Here's an example dependency; you can find dependencies at https://search.maven.org. This isn't
-        actually used by this template, but is shown full-fleshed out because chances are your project
-        will need at least one if not many dependencies.
-        -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-numbers-primes</artifactId>
-            <version>1.2</version>
-            <type>jar</type>
-            <scope>compile</scope>
-            <optional>false</optional>
         </dependency>
     </dependencies>
 
@@ -174,10 +130,37 @@ Go through this file line-by-line and replace the template values with your own.
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                         </manifest>
                         <manifestEntries>
-                            <Main-Class>gov.nasa.pds.mypackage.Main</Main-Class>
+                            <Main-Class>gov.nasa.pds.nucleus.ingress.PDSNucleusS3BackLogProcessor</Main-Class>
                         </manifestEntries>
                     </archive>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Main-Class>gov.nasa.pds.nucleus.ingress.PDSNucleusS3BackLogProcessor</Main-Class>
+                        </manifestEntries>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>assemble-all</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             
             <!-- Build the site -->
